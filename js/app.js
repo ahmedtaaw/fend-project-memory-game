@@ -1,7 +1,24 @@
 /*
  * Create a list that holds all of your cards
  */
-
+var initcards=[
+    '<li class="card"><i class="fa fa-diamond"></i></li>',
+    '<li class="card"><i class="fa fa-paper-plane-o"></i></li>',
+    '<li class="card"><i class="fa fa-anchor"></i></li>',
+    '<li class="card"><i class="fa fa-bolt"></i></li>',
+    '<li class="card"><i class="fa fa-cube"></i></li>',
+    '<li class="card"><i class="fa fa-leaf"></i></li>',
+    '<li class="card"><i class="fa fa-bicycle"></i></li>',
+    '<li class="card"><i class="fa fa-bomb"></i></li>',
+    '<li class="card"><i class="fa fa-diamond"></i></li>',
+    '<li class="card"><i class="fa fa-paper-plane-o"></i></li>',
+    '<li class="card"><i class="fa fa-anchor"></i></li>',
+    '<li class="card"><i class="fa fa-bolt"></i></li>',
+    '<li class="card"><i class="fa fa-cube"></i></li>',
+    '<li class="card"><i class="fa fa-leaf"></i></li>',
+    '<li class="card"><i class="fa fa-bicycle"></i></li>',
+    '<li class="card"><i class="fa fa-bomb"></i></li>'
+];
 
 /*
  * Display the cards on the page
@@ -25,6 +42,20 @@ function shuffle(array) {
     return array;
 }
 
+drawCards();
+
+function drawCards(){
+    var randomarray = shuffle(initcards);
+    if(document.getElementById("deck").childNodes.length > 0){
+        document.getElementById("deck").innerHTML="";
+    }
+    randomarray.forEach(function(element) {
+        document.getElementById("deck").innerHTML+=element;
+    });
+    setupEventListener();
+}
+
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -36,3 +67,40 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+var cardList=[];
+function setupEventListener(){
+    var el=document.getElementById("deck").childNodes;
+        //console.log(el)
+        //console.log(el[1])
+
+        el.forEach(function(element) {
+        element.addEventListener('click', function () {
+            //console.log(this);
+            this.classList.add("show");
+            //add card to list
+            //check if it has another one
+            console.log(cardList.length);
+            if(cardList.length==0){
+               cardList.push(this);
+            }else if(cardList.length==1){
+                //if the list contain one element
+                console.log(this);
+                cardList.push(this);
+                if(checkSimilarity(cardList)){
+                    console.log("Yes, similar");
+                    cardList=[];
+                }else{
+                    console.log("No, not similar");
+                    cardList=[];
+                }
+            }
+        });
+    });
+
+}
+
+function checkSimilarity(array){
+    //beacuse they will always be 2
+    return (array[0].firstChild.classList.value==array[1].firstChild.classList.value);
+}
