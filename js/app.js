@@ -53,6 +53,7 @@ function drawCards(){
         document.getElementById("deck").innerHTML+=element;
     });
     moveSteps=0;
+    document.getElementById("starRating").innerHTML=moveSteps;
     timeinseconds=0;
      document.getElementById("stars").innerHTML="";
      document.querySelectorAll(".winningGame")[0].style.display="none";
@@ -85,7 +86,7 @@ function setupEventListener(){
         el.forEach(function(element) {
         element.addEventListener('click', function () {
             //console.log(this);
-            if(! this.classList.contains("match")){
+            if(! this.classList.contains("match")&&! this.classList.contains("open")){
                 this.classList.add("show");
                 this.classList.add("open");
                 starRating();
@@ -134,6 +135,9 @@ function lockCard(){
         });
         if(document.querySelectorAll('.match').length==16){
           document.querySelectorAll(".winningGame")[0].style.display="block";
+          document.getElementById("starRatingReport").innerHTML=0;
+          document.getElementById("starsReport").innerHTML=moveSteps;
+          document.getElementById("secondsreport").innerHTML=timeinseconds;
         }
 }
 
