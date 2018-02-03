@@ -52,6 +52,14 @@ function drawCards(){
     randomarray.forEach(function(element) {
         document.getElementById("deck").innerHTML+=element;
     });
+    moveSteps=0;
+    timeinseconds=0;
+     document.getElementById("stars").innerHTML="";
+     document.querySelectorAll(".winningGame")[0].style.display="none";
+      for(var i=0;i<3;i++){
+         
+            document.getElementById("stars").innerHTML+='<li><i class="fa fa-star"></i></li> ';
+        }
     setupEventListener();
 }
 
@@ -80,9 +88,10 @@ function setupEventListener(){
             if(! this.classList.contains("match")){
                 this.classList.add("show");
                 this.classList.add("open");
+                starRating();
                 //add card to list
                 //check if it has another one
-                console.log(cardList.length);
+               // console.log(cardList.length);
                 if(cardList.length==0){
                 cardList.push(this);
                 }else if(cardList.length==1){
@@ -95,6 +104,7 @@ function setupEventListener(){
                         cardList=[];
                     }else{
                         //console.log("No, not similar");
+                        errorCard()
                         setTimeout(function(){ 
                             unlockCard();
                             cardList=[];
@@ -122,6 +132,9 @@ function lockCard(){
                 element.classList.add("match");
             }
         });
+        if(document.querySelectorAll('.match').length==16){
+          document.querySelectorAll(".winningGame")[0].style.display="block";
+        }
 }
 
 function unlockCard(){
@@ -132,6 +145,47 @@ function unlockCard(){
            if(! element.classList.contains("match")){
                             element.classList.remove("show");
                              element.classList.remove("open");
+                             element.classList.remove("error");
                         }
         });
 }
+
+function errorCard(){
+    var el=document.getElementById("deck").childNodes;
+        el.forEach(function(element) {
+           if((! element.classList.contains("match")) &&(element.classList.contains("open"))){
+                element.classList.add("error");
+            }
+        });
+}
+
+var moveSteps=0;
+function starRating(){
+   
+    moveSteps+=1;
+    document.getElementById("starRating").innerHTML=moveSteps;
+     
+      
+   
+    if(moveSteps>6){
+          document.getElementById("stars").innerHTML="";
+          document.getElementById("stars").innerHTML+='<li><i class="fa fa-star"></i></li> ';
+          document.getElementById("stars").innerHTML+='<li><i class="fa fa-star"></i></li> ';
+          document.getElementById("stars").innerHTML+='<li><i class="fa fa-star-o"></i></li> ';
+    }
+    if(moveSteps>10){
+          document.getElementById("stars").innerHTML="";
+          document.getElementById("stars").innerHTML+='<li><i class="fa fa-star"></i></li> ';
+          document.getElementById("stars").innerHTML+='<li><i class="fa fa-star-o"></i></li> ';
+          document.getElementById("stars").innerHTML+='<li><i class="fa fa-star-o"></i></li> ';
+    }
+}
+var timeinseconds=0;
+
+
+
+window.setInterval(function(){
+  document.getElementById("runtimer").innerHTML="";
+document.getElementById("runtimer").innerHTML=timeinseconds;
+timeinseconds++;
+}, 1000);
