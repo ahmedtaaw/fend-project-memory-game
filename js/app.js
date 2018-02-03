@@ -77,22 +77,29 @@ function setupEventListener(){
         el.forEach(function(element) {
         element.addEventListener('click', function () {
             //console.log(this);
-            this.classList.add("show");
-            //add card to list
-            //check if it has another one
-            console.log(cardList.length);
-            if(cardList.length==0){
-               cardList.push(this);
-            }else if(cardList.length==1){
-                //if the list contain one element
-                console.log(this);
+            if(! this.classList.contains("match")){
+                this.classList.add("show");
+                this.classList.add("open");
+                //add card to list
+                //check if it has another one
+                console.log(cardList.length);
+                if(cardList.length==0){
                 cardList.push(this);
-                if(checkSimilarity(cardList)){
-                    console.log("Yes, similar");
-                    cardList=[];
-                }else{
-                    console.log("No, not similar");
-                    cardList=[];
+                }else if(cardList.length==1){
+                    //if the list contain one element
+                    //console.log(this);
+                    cardList.push(this);
+                    if(checkSimilarity(cardList)){
+                        //console.log("Yes, similar");
+                        lockCard(cardList);
+                        cardList=[];
+                    }else{
+                        //console.log("No, not similar");
+                        setTimeout(function(){ 
+                            unlockCard();
+                            cardList=[];
+                        }, 500);
+                    }
                 }
             }
         });
@@ -103,4 +110,28 @@ function setupEventListener(){
 function checkSimilarity(array){
     //beacuse they will always be 2
     return (array[0].firstChild.classList.value==array[1].firstChild.classList.value);
+}
+
+function lockCard(){
+        var el=document.getElementById("deck").childNodes;
+        
+
+        el.forEach(function(element) {
+            if(element.classList.contains("show")){
+                element.classList.remove("show");
+                element.classList.add("match");
+            }
+        });
+}
+
+function unlockCard(){
+        var el=document.getElementById("deck").childNodes;
+        
+
+        el.forEach(function(element) {
+           if(! element.classList.contains("match")){
+                            element.classList.remove("show");
+                             element.classList.remove("open");
+                        }
+        });
 }
