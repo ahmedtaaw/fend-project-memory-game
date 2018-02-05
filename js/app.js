@@ -61,6 +61,9 @@ function drawCards() {
 
         document.getElementById("stars").innerHTML += '<li><i class="fa fa-star"></i></li> ';
     }
+    clearInterval(setinterval);
+    starttimerswitch=true;
+     document.getElementById("runtimer").innerHTML = 0;
     setupEventListener();
 }
 
@@ -76,7 +79,7 @@ function drawCards() {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-
+var starttimerswitch=true;
 var cardList = [];
 function setupEventListener() {
     var el = document.getElementById("deck").childNodes;
@@ -86,6 +89,10 @@ function setupEventListener() {
     el.forEach(function (element) {
         element.addEventListener('click', function () {
             //console.log(this);
+            if(starttimerswitch){
+                 starttimer();
+                starttimerswitch=false;
+            }
             if (!this.classList.contains("match") && !this.classList.contains("open")) {
                 this.classList.add("show");
                 this.classList.add("open");
@@ -136,7 +143,7 @@ function lockCard() {
     if (document.querySelectorAll('.match').length == 16) {
         document.querySelectorAll(".winningGame")[0].style.display = "block";
         if (moveSteps > 16) {
-            document.getElementById("starRatingReport").innerHTML = 0;
+           
         } else if (moveSteps > 12) {
             document.getElementById("starRatingReport").innerHTML = 1;
         } else if (moveSteps > 8) {
@@ -181,10 +188,7 @@ function starRating() {
 
     document.getElementById("starRating").innerHTML = moveSteps;
     if (moveSteps > 16) {
-        document.getElementById("stars").innerHTML = "";
-        document.getElementById("stars").innerHTML += '<li><i class="fa fa-star-o"></i></li> ';
-        document.getElementById("stars").innerHTML += '<li><i class="fa fa-star-o"></i></li> ';
-        document.getElementById("stars").innerHTML += '<li><i class="fa fa-star-o"></i></li> ';
+        
     } else if (moveSteps > 12) {
         document.getElementById("stars").innerHTML = "";
         document.getElementById("stars").innerHTML += '<li><i class="fa fa-star"></i></li> ';
@@ -205,10 +209,12 @@ function starRating() {
 }
 var timeinseconds = 0;
 
-
-
-window.setInterval(function () {
-    document.getElementById("runtimer").innerHTML = "";
-    document.getElementById("runtimer").innerHTML = timeinseconds;
-    timeinseconds++;
-}, 1000);
+var setinterval;
+function starttimer(){
+    timeinseconds=1;
+    setinterval=window.setInterval(function () {
+        document.getElementById("runtimer").innerHTML = "";
+        document.getElementById("runtimer").innerHTML = timeinseconds;
+        timeinseconds++;
+    }, 1000);
+}
